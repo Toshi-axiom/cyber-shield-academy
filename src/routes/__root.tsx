@@ -11,6 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { Preloader } from "@/components/Preloader";
 import { Navbar } from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
