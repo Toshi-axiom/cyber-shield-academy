@@ -12,7 +12,7 @@ export const Route = createFileRoute("/dashboard")({
       { name: "description", content: "Track your XP, completed labs, streak, and progress across all 9 Vaelora cybersecurity phases." },
     ],
   }),
-  component: Dashboard;
+  component: Dashboard,
 });
 
 function Dashboard() {
