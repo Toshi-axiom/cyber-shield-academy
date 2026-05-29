@@ -9,11 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuizPhaseIdRouteImport } from './routes/quiz.$phaseId'
 import { Route as LessonPhaseIdModuleIdRouteImport } from './routes/lesson.$phaseId.$moduleId'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesRoute = CoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
@@ -38,12 +50,16 @@ const LessonPhaseIdModuleIdRoute = LessonPhaseIdModuleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
@@ -51,18 +67,34 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/dashboard': typeof DashboardRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/courses' | '/quiz/$phaseId' | '/lesson/$phaseId/$moduleId'
+  fullPaths:
+    | '/'
+    | '/courses'
+    | '/dashboard'
+    | '/sitemap.xml'
+    | '/quiz/$phaseId'
+    | '/lesson/$phaseId/$moduleId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/courses' | '/quiz/$phaseId' | '/lesson/$phaseId/$moduleId'
+  to:
+    | '/'
+    | '/courses'
+    | '/dashboard'
+    | '/sitemap.xml'
+    | '/quiz/$phaseId'
+    | '/lesson/$phaseId/$moduleId'
   id:
     | '__root__'
     | '/'
     | '/courses'
+    | '/dashboard'
+    | '/sitemap.xml'
     | '/quiz/$phaseId'
     | '/lesson/$phaseId/$moduleId'
   fileRoutesById: FileRoutesById
@@ -70,12 +102,28 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoursesRoute: typeof CoursesRoute
+  DashboardRoute: typeof DashboardRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   QuizPhaseIdRoute: typeof QuizPhaseIdRoute
   LessonPhaseIdModuleIdRoute: typeof LessonPhaseIdModuleIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses': {
       id: '/courses'
       path: '/courses'
@@ -110,9 +158,21 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoursesRoute: CoursesRoute,
+  DashboardRoute: DashboardRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   QuizPhaseIdRoute: QuizPhaseIdRoute,
   LessonPhaseIdModuleIdRoute: LessonPhaseIdModuleIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
