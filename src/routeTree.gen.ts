@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuizPhaseIdRouteImport } from './routes/quiz.$phaseId'
 import { Route as LessonPhaseIdModuleIdRouteImport } from './routes/lesson.$phaseId.$moduleId'
 
 const CoursesRoute = CoursesRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuizPhaseIdRoute = QuizPhaseIdRouteImport.update({
+  id: '/quiz/$phaseId',
+  path: '/quiz/$phaseId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LessonPhaseIdModuleIdRoute = LessonPhaseIdModuleIdRouteImport.update({
   id: '/lesson/$phaseId/$moduleId',
   path: '/lesson/$phaseId/$moduleId',
@@ -32,30 +38,39 @@ const LessonPhaseIdModuleIdRoute = LessonPhaseIdModuleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/courses': typeof CoursesRoute
+  '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/courses' | '/lesson/$phaseId/$moduleId'
+  fullPaths: '/' | '/courses' | '/quiz/$phaseId' | '/lesson/$phaseId/$moduleId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/courses' | '/lesson/$phaseId/$moduleId'
-  id: '__root__' | '/' | '/courses' | '/lesson/$phaseId/$moduleId'
+  to: '/' | '/courses' | '/quiz/$phaseId' | '/lesson/$phaseId/$moduleId'
+  id:
+    | '__root__'
+    | '/'
+    | '/courses'
+    | '/quiz/$phaseId'
+    | '/lesson/$phaseId/$moduleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoursesRoute: typeof CoursesRoute
+  QuizPhaseIdRoute: typeof QuizPhaseIdRoute
   LessonPhaseIdModuleIdRoute: typeof LessonPhaseIdModuleIdRoute
 }
 
@@ -75,6 +90,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quiz/$phaseId': {
+      id: '/quiz/$phaseId'
+      path: '/quiz/$phaseId'
+      fullPath: '/quiz/$phaseId'
+      preLoaderRoute: typeof QuizPhaseIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lesson/$phaseId/$moduleId': {
       id: '/lesson/$phaseId/$moduleId'
       path: '/lesson/$phaseId/$moduleId'
@@ -88,6 +110,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoursesRoute: CoursesRoute,
+  QuizPhaseIdRoute: QuizPhaseIdRoute,
   LessonPhaseIdModuleIdRoute: LessonPhaseIdModuleIdRoute,
 }
 export const routeTree = rootRouteImport
