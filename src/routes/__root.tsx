@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Preloader } from "@/components/Preloader";
+import { Navbar } from "@/components/Navbar";
 
 function NotFoundComponent() {
   return (
