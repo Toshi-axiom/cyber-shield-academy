@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { Preloader } from "@/components/Preloader";
 import { Navbar } from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/components/AuthContext";
 
 function NotFoundComponent() {
   return (
@@ -116,11 +117,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Preloader />
-      <Navbar />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Toaster position="bottom-right" theme="dark" />
+      <AuthProvider>
+        <Preloader />
+        <Navbar />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Toaster position="bottom-right" theme="dark" />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

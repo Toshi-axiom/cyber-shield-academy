@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Zap, Layers, FlaskConical, Flame, ArrowRight, Lock, CheckCircle2 } from "lucide-react";
+import { Zap, Layers, FlaskConical, Flame, ArrowRight, Lock, CheckCircle2, ShieldAlert } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { StatCard } from "@/components/StatCard";
 import { phases, totalModules } from "@/data/curriculum";
 import { useProgress } from "@/hooks/useProgress";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
+  const { user } = useAuth();
   const { progress, isComplete } = useProgress();
   const completedModules = progress.completedModules.length;
   const phasesDone = phases.filter((p) => p.modules.every((m) => isComplete(m.id))).length;
@@ -34,6 +36,24 @@ function Dashboard() {
       <div className="mx-auto max-w-[1280px] px-6 py-12">
         <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Your Command Center</span>
         <h1 className="mt-2 font-display text-5xl tracking-wide text-foreground md:text-7xl">Dashboard</h1>
+
+        {!user && (
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-4 font-mono text-xs">
+            <div className="flex items-start gap-3">
+              <ShieldAlert className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
+              <div>
+                <span className="text-yellow-500 font-semibold uppercase tracking-wider">SECURITY WARNING: Guest Session Active</span>
+                <p className="mt-1 text-muted-foreground">Your training records and XP are stored locally. Initialize a secure Agent ID to sync progress permanently.</p>
+              </div>
+            </div>
+            <Link
+              to="/auth"
+              className="inline-flex items-center justify-center gap-1.5 rounded bg-yellow-500/10 border border-yellow-500/25 px-4 py-2 font-semibold text-yellow-500 hover:bg-yellow-500 hover:text-black transition-colors shrink-0 text-center uppercase tracking-wider"
+            >
+              Secure Account <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        )}
 
         <div className="mt-10 grid grid-cols-2 gap-5 md:grid-cols-4">
           <StatCard value={progress.xp} suffix=" XP" label="Total earned" />
