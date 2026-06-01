@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquare, X, Send, Cpu, Terminal } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import aiLogo from "@/assets/ai.png";
 
 interface Message {
   id: string;
@@ -86,7 +87,7 @@ export function PhoenixChat() {
           >
             {/* Pulsing core */}
             <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping opacity-50" />
-            <Cpu className="w-6 h-6 text-primary relative z-10 group-hover:text-white transition-colors" />
+            <img src={aiLogo} alt="AI Guardian" className="w-8 h-8 object-cover filter drop-shadow-[0_0_8px_rgba(255,107,0,0.8)] relative z-10 group-hover:scale-110 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -104,9 +105,9 @@ export function PhoenixChat() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-primary/20 bg-primary/5">
               <div className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center w-8 h-8 rounded-full border border-primary/50 bg-black/50">
-                  <Cpu className="w-4 h-4 text-primary" />
-                  <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_#22c55e]" />
+                <div className="relative flex items-center justify-center w-8 h-8 rounded-full border border-primary/50 bg-black/50 overflow-hidden">
+                  <img src={aiLogo} alt="AI Guardian" className="w-full h-full object-cover filter drop-shadow-[0_0_4px_rgba(255,107,0,0.8)]" />
+                  <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_#22c55e] z-10" />
                 </div>
                 <div>
                   <h3 className="font-orbitron text-sm font-bold text-white tracking-wider">PHOENIX</h3>
