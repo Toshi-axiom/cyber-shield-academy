@@ -112,6 +112,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { PhoenixChat } from "@/components/PhoenixChat";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -122,6 +124,7 @@ function RootComponent() {
         <Navbar />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
+        <PhoenixChat />
         <Toaster position="bottom-right" theme="dark" />
       </AuthProvider>
     </QueryClientProvider>

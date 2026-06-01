@@ -49,7 +49,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center gap-3">
               <img src={logo} alt="Vaelora" className="h-9 w-9 object-contain" />
-              <span className="font-display text-2xl tracking-[0.18em] text-[#F5F5F5]">VAELORA</span>
+              <span className="font-orbitron text-2xl tracking-[0.18em] text-[#F5F5F5]">VAELORA</span>
             </Link>
             <p className="mt-4 max-w-xs text-xs text-[#A0A0A0] leading-relaxed">
               Intelligence. Integrity. Impact.

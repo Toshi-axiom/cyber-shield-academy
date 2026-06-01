@@ -7,11 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 const links = [
   { to: "/", label: "Home" },
   { to: "/courses", label: "Academy" },
-  { to: "/courses", label: "Roadmap" },
-  { to: "/courses", label: "Labs" },
-  { to: "/courses", label: "Challenges" },
-  { to: "/dashboard", label: "Community" },
-  { to: "/courses", label: "Pricing" },
+  { to: "/roadmap", label: "Roadmap" },
+  { to: "/leaderboard", label: "Leaderboard" },
+  { to: "/labs", label: "Labs" },
+  { to: "/challenges", label: "Challenges" },
 ];
 
 export function Navbar() {
@@ -25,7 +24,7 @@ export function Navbar() {
       <nav className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-3">
           <img src={logo} alt="Vaelora" className="h-9 w-9 object-contain" />
-          <span className="font-display text-2xl tracking-[0.18em] text-foreground">VAELORA</span>
+          <span className="font-orbitron text-2xl tracking-[0.18em] text-foreground">VAELORA</span>
           <span className="hidden lg:flex items-center gap-1.5 font-mono text-[0.6rem] tracking-[0.2em] text-primary border-l border-border/60 pl-3 ml-1">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#FF6B00]" />
             PHOENIX ONLINE

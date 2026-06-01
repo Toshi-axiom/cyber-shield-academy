@@ -77,34 +77,14 @@ async function syncGuestProgress(userId: string) {
   if (local.completedModules.length === 0) return;
 
   try {
-    // 1. Sync modules
-    const moduleInserts = local.completedModules.map((mid) => ({
-      user_id: userId,
-      module_id: mid,
-    }));
-    const { error: modErr } = await supabase
-      .from("user_progress")
-      .upsert(moduleInserts, { onConflict: "user_id,module_id" });
+    // Sync guest progress securely via database RPC, discarding client-provided XP
+    const { data, error } = await (supabase as any).rpc("sync_guest_progress_secure", {
+      p_module_ids: local.completedModules,
+    });
 
-    if (modErr) throw modErr;
+    if (error) throw error;
 
-    // 2. Fetch current stats
-    const { data: stats } = await supabase
-      .from("user_stats")
-      .select("xp")
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    // 3. Update stats with cumulative XP
-    const newXp = (stats?.xp ?? 0) + local.xp;
-    const { error: statsErr } = await supabase
-      .from("user_stats")
-      .update({ xp: newXp, updated_at: new Date().toISOString() })
-      .eq("user_id", userId);
-
-    if (statsErr) throw statsErr;
-
-    // 4. Clear local guest progress
+    // Clear local guest progress
     localStorage.removeItem(KEY);
     console.log("[Supabase] Guest progress successfully synced to cloud.");
   } catch (err) {
@@ -162,31 +142,25 @@ export function useProgress() {
         if (globalProgress.completedModules.includes(moduleId)) return false;
 
         try {
-          // 1. Insert module completion
-          const { error: modErr } = await supabase
-            .from("user_progress")
-            .insert({ user_id: user.id, module_id: moduleId });
+          // Call the secure RPC to complete module and calculate XP
+          const { data, error } = await (supabase as any).rpc("complete_module_secure", {
+            p_module_id: moduleId,
+          });
 
-          if (modErr) throw modErr;
+          if (error) throw error;
+          
+          const result = data as { success: boolean; awarded: boolean; xp_total: number };
+          if (!result || !result.success) return false;
 
-          // 2. Increment XP on user stats
-          const newXp = globalProgress.xp + XP_PER_MODULE;
-          const { error: statsErr } = await supabase
-            .from("user_stats")
-            .update({ xp: newXp, updated_at: new Date().toISOString() })
-            .eq("user_id", user.id);
-
-          if (statsErr) throw statsErr;
-
-          // 3. Update local cache
+          // Update local cache
           globalProgress = {
             ...globalProgress,
             completedModules: [...globalProgress.completedModules, moduleId],
-            xp: newXp,
+            xp: result.xp_total,
             lastActive: new Date().toISOString(),
           };
           notify();
-          return true;
+          return result.awarded;
         } catch (err) {
           console.error("Error saving completed module to DB:", err);
           return false;
@@ -210,38 +184,108 @@ export function useProgress() {
     [user]
   );
 
-  const addXp = useCallback(
-    async (amount: number) => {
+  const submitQuiz = useCallback(
+    async (phaseId: string, score: number, total: number) => {
       if (user) {
         try {
-          const newXp = globalProgress.xp + amount;
-          const { error } = await supabase
-            .from("user_stats")
-            .update({ xp: newXp, updated_at: new Date().toISOString() })
-            .eq("user_id", user.id);
+          const { data, error } = await (supabase as any).rpc("submit_quiz_secure", {
+            p_phase_id: phaseId,
+            p_score: score,
+            p_total: total,
+          });
 
           if (error) throw error;
 
-          globalProgress = {
-            ...globalProgress,
-            xp: newXp,
-            lastActive: new Date().toISOString(),
-          };
-          notify();
+          const result = data as { success: boolean; xp_earned: number; xp_total: number };
+          if (result && result.success) {
+            globalProgress = {
+              ...globalProgress,
+              xp: result.xp_total,
+              lastActive: new Date().toISOString(),
+            };
+            notify();
+            return result;
+          }
         } catch (err) {
-          console.error("Error adding XP to DB:", err);
+          console.error("Error submitting quiz:", err);
         }
       } else {
         // Guest mode fallback
+        const xpEarned = score * 20;
         const cur = readLocal();
         const next = {
           ...cur,
-          xp: cur.xp + amount,
+          xp: cur.xp + xpEarned,
           lastActive: new Date().toISOString(),
         };
         writeLocal(next);
         globalProgress = next;
         notify();
+        return { success: true, xp_earned: xpEarned, xp_total: next.xp };
+      }
+      return { success: false, xp_earned: 0, xp_total: globalProgress.xp };
+    },
+    [user]
+  );
+
+  const submitFlag = useCallback(
+    async (moduleId: string, flag: string) => {
+      if (user) {
+        try {
+          const { data, error } = await (supabase as any).rpc("submit_lab_flag_secure", {
+            p_module_id: moduleId,
+            p_flag: flag,
+          });
+
+          if (error) throw error;
+
+          const result = data as {
+            success: boolean;
+            message: string;
+            flag_newly_captured: boolean;
+            module_newly_completed: boolean;
+            xp_earned: number;
+            xp_total: number;
+          };
+
+          if (result && result.success) {
+            globalProgress = {
+              ...globalProgress,
+              completedModules: result.module_newly_completed 
+                ? [...globalProgress.completedModules, moduleId]
+                : globalProgress.completedModules,
+              xp: result.xp_total,
+              lastActive: new Date().toISOString(),
+            };
+            notify();
+          }
+          return result;
+        } catch (err) {
+          console.error("Error submitting flag:", err);
+          return { success: false, message: "Server connection failed." };
+        }
+      } else {
+        // Guest mode fallback (always auto-succeeds locally with mock flag)
+        const cur = readLocal();
+        const isAlreadyComplete = cur.completedModules.includes(moduleId);
+        const xpEarned = isAlreadyComplete ? 0 : 100; // 50 flag + 50 module completion
+        const next = {
+          ...cur,
+          completedModules: isAlreadyComplete 
+            ? cur.completedModules 
+            : [...cur.completedModules, moduleId],
+          xp: cur.xp + xpEarned,
+          lastActive: new Date().toISOString(),
+        };
+        writeLocal(next);
+        globalProgress = next;
+        notify();
+        return {
+          success: true,
+          message: "Guest Mode: Flag accepted locally!",
+          xp_earned: xpEarned,
+          xp_total: next.xp,
+        };
       }
     },
     [user]
@@ -252,5 +296,5 @@ export function useProgress() {
     [progress.completedModules]
   );
 
-  return { progress, completeModule, addXp, isComplete, XP_PER_MODULE };
+  return { progress, completeModule, submitQuiz, submitFlag, isComplete, XP_PER_MODULE };
 }

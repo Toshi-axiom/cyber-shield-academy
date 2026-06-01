@@ -2,7 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 export function Preloader() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname;
+      if (path.startsWith("/auth") || path.startsWith("/reset-password")) {
+        return false;
+      }
+      return !sessionStorage.getItem("has_seen_preloader");
+    }
+    return true;
+  });
   const [percent, setPercent] = useState(0);
   const [videoReady, setVideoReady] = useState(false);
   const [phase, setPhase] = useState<"loading" | "playing" | "done">("loading");
@@ -13,6 +22,7 @@ export function Preloader() {
 
   // Lock scroll on mount and force muted via DOM ref (React SSR strips the attribute)
   useEffect(() => {
+    if (!show) return;
     document.body.style.overflow = "hidden";
     if (videoRef.current) {
       videoRef.current.muted = true;
@@ -20,10 +30,11 @@ export function Preloader() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [show]);
 
   // Cyber percentage counter incrementation
   useEffect(() => {
+    if (!show) return;
     let interval: ReturnType<typeof setInterval>;
     
     if (phase === "loading") {
@@ -46,7 +57,7 @@ export function Preloader() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [phase]);
+  }, [phase, show]);
 
   // Keep phaseRef in sync
   useEffect(() => {
@@ -55,8 +66,15 @@ export function Preloader() {
 
   // Synchronize loading percent and video buffering readiness
   useEffect(() => {
+    if (!show) return;
+    // Check if the video is already buffered (e.g., from browser cache)
+    // readyState >= 3 means HAVE_FUTURE_DATA
+    if (videoRef.current && videoRef.current.readyState >= 3) {
+      setVideoReady(true);
+    }
+
     if (percent === 100 && phase === "loading") {
-      if (videoReady) {
+      if (videoReady || (videoRef.current && videoRef.current.readyState >= 3)) {
         startVideo();
       } else {
         // Wait up to 6s for video buffering, otherwise bypass to prevent lockout
@@ -66,7 +84,7 @@ export function Preloader() {
         return () => clearTimeout(timeout);
       }
     }
-  }, [percent, videoReady, phase]);
+  }, [percent, videoReady, phase, show]);
 
   const startVideo = () => {
     if (phaseRef.current !== "loading") return;
@@ -95,6 +113,9 @@ export function Preloader() {
     document.body.style.overflow = "";
     setShow(false);
     setPhase("done");
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("has_seen_preloader", "true");
+    }
   };
 
   const getLoadingMessage = (p: number) => {
@@ -192,7 +213,7 @@ export function Preloader() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4, duration: 1 }}
             >
-              <h1 className="font-display text-6xl tracking-[0.25em] text-foreground md:text-8xl">
+              <h1 className="font-orbitron text-6xl tracking-[0.25em] text-foreground md:text-8xl">
                 VAELORA
               </h1>
               <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.35em] text-muted-foreground">

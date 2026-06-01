@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   CheckCircle2,
@@ -42,11 +42,24 @@ function Lesson() {
   const { phaseId, moduleId } = Route.useParams();
   const navigate = useNavigate();
   const { isComplete, completeModule, XP_PER_MODULE } = useProgress();
-  const { phase, module } = findModule(phaseId, moduleId)!;
+  const { phase: rawPhase, module: rawModule } = findModule(phaseId, moduleId);
+  const phase = rawPhase!;
+  const module = rawModule!;
+
+  const completed = isComplete(module.id);
 
   const [labSteps, setLabSteps] = useState<boolean[]>(
-    () => (module?.lab ? module.lab.steps.map(() => false) : []),
+    () => (module?.lab ? module.lab.steps.map(() => completed) : []),
   );
+
+  // If completion state shifts, update checklist items
+  useEffect(() => {
+    if (completed && module?.lab) {
+      setLabSteps(module.lab.steps.map(() => true));
+    } else if (!completed && module?.lab) {
+      setLabSteps(module.lab.steps.map(() => false));
+    }
+  }, [completed, module]);
 
   const next = useMemo(() => {
     if (!phase || !module) return null;
@@ -65,14 +78,17 @@ function Lesson() {
   if (!phase || !module) return null;
 
   const labDone = module.lab ? labSteps.every(Boolean) : true;
-  const completed = isComplete(module.id);
 
-  const handleComplete = () => {
-    const awarded = completeModule(module.id);
-    if (awarded) {
-      toast.success(`+${XP_PER_MODULE} XP — Module Complete`, {
-        description: module.title,
-      });
+  const handleComplete = async () => {
+    // If not already completed (concept checks), complete it now.
+    // If it was already completed (labs), this is a no-op that just continues.
+    if (!completed) {
+      const awarded = await completeModule(module.id);
+      if (awarded) {
+        toast.success(`+${XP_PER_MODULE} XP — Module Complete`, {
+          description: module.title,
+        });
+      }
     }
     if (next) {
       navigate({ to: "/lesson/$phaseId/$moduleId", params: { phaseId: next.phaseId, moduleId: next.moduleId } });
@@ -119,7 +135,7 @@ function Lesson() {
           <ArrowLeft className="h-3.5 w-3.5" /> Curriculum
         </Link>
         <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-primary">Module {module.code}</p>
-        <h1 className="mt-2 font-display text-5xl tracking-wide text-foreground md:text-6xl">{module.title}</h1>
+        <h1 className="mt-2 font-orbitron text-5xl tracking-wide text-foreground md:text-6xl">{module.title}</h1>
         <p className="mt-3 text-lg font-light text-muted-foreground">{module.summary}</p>
 
         <div className="mt-8 rounded-[var(--radius-md)] border-l-2 border-primary bg-[var(--bg-overlay)] p-5">
@@ -159,14 +175,19 @@ function Lesson() {
 
         <button
           onClick={handleComplete}
-          disabled={!labDone && !completed}
+          disabled={!completed && (module.lab ? true : !labDone)}
           className="mt-10 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-md)] bg-primary px-6 py-4 font-medium text-primary-foreground transition-all hover:bg-[var(--accent-hover)] hover:shadow-[var(--shadow-glow-lg)] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {completed ? "Continue" : "Mark Complete & Continue"} <ArrowRight className="h-4 w-4" />
         </button>
-        {!labDone && !completed && module.lab && (
+        {!completed && module.lab && (
           <p className="mt-2 text-center font-mono text-xs text-[var(--text-muted)]">
-            Finish all lab steps to unlock completion.
+            Solve the lab and submit the flag to unlock completion.
+          </p>
+        )}
+        {!completed && !module.lab && !labDone && (
+          <p className="mt-2 text-center font-mono text-xs text-[var(--text-muted)]">
+            Finish all review steps to unlock completion.
           </p>
         )}
       </article>
@@ -190,6 +211,14 @@ function LabPanel({
   labSteps: boolean[];
   setLabSteps: (v: boolean[]) => void;
 }) {
+  const { isComplete, submitFlag } = useProgress();
+  const [flagInput, setFlagInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorState, setErrorState] = useState(false);
+  const [serverMessage, setServerMessage] = useState("");
+
+  const completed = isComplete(module.id);
+
   if (!module.lab) {
     return (
       <div className="rounded-[var(--radius-lg)] border border-border bg-[var(--bg-secondary)] p-6">
@@ -205,9 +234,41 @@ function LabPanel({
 
   const done = labSteps.filter(Boolean).length;
   const toggle = (i: number) => {
+    // If already complete, checklist shouldn't be toggleable
+    if (completed) return;
     const copy = [...labSteps];
     copy[i] = !copy[i];
     setLabSteps(copy);
+  };
+
+  const handleFlagSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!flagInput.trim() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setErrorState(false);
+    setServerMessage("");
+
+    try {
+      const res = await submitFlag(module.id, flagInput);
+      if (res && res.success) {
+        toast.success(`+${res.xp_earned || 100} XP — Lab Complete`, {
+          description: "Flag verified and accepted successfully!",
+        });
+        setLabSteps(module.lab!.steps.map(() => true));
+      } else {
+        setErrorState(true);
+        setServerMessage(res.message || "Incorrect flag value.");
+        setTimeout(() => setErrorState(false), 500);
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorState(true);
+      setServerMessage("Verification server offline.");
+      setTimeout(() => setErrorState(false), 500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -236,10 +297,11 @@ function LabPanel({
             <li key={s}>
               <button
                 onClick={() => toggle(i)}
+                disabled={completed}
                 className={`flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition-colors ${
                   labSteps[i]
                     ? "border-[var(--status-success)]/40 bg-[var(--status-success)]/5 text-foreground"
-                    : "border-border text-muted-foreground hover:border-[var(--border-accent)]"
+                    : "border-border text-muted-foreground hover:border-[var(--border-accent)] disabled:cursor-default"
                 }`}
               >
                 {labSteps[i] ? (
@@ -257,8 +319,62 @@ function LabPanel({
           <div className="h-full bg-primary transition-all duration-500" style={{ width: `${(done / labSteps.length) * 100}%` }} />
         </div>
         {done === labSteps.length && (
-          <p className="mt-3 text-center font-mono text-xs text-[var(--status-success)]">Lab complete — nicely done.</p>
+          <p className="mt-3 text-center font-mono text-xs text-[var(--status-success)]">Lab steps complete.</p>
         )}
+
+        {/* Flag Submission HUD */}
+        <div className="mt-6 border-t border-white/5 pt-5">
+          <h4 className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-[#FF5A1F] mb-3 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
+            SYSTEM AUTHENTICATION
+          </h4>
+          
+          {completed ? (
+            <div className="border border-green-500/20 bg-green-500/5 p-4 rounded text-center">
+              <span className="font-mono text-xs text-green-500 uppercase tracking-widest block font-bold">
+                ✓ ACCESS GRANTED // SOLVED
+              </span>
+              <p className="mt-1 font-mono text-[0.6rem] text-muted-foreground/60">
+                The encrypted module hash has been verified and registered on the server.
+              </p>
+            </div>
+          ) : (
+            <div className={`space-y-3 ${errorState ? 'animate-shake' : ''}`}>
+              <p className="text-[0.65rem] text-muted-foreground font-mono leading-relaxed">
+                Deploy target, locate the flag format <code className="text-[#FF5A1F] font-bold">{"FLAG{...}"}</code>, and submit it below to authorize.
+              </p>
+              
+              <form onSubmit={handleFlagSubmit} className="flex gap-2 font-mono">
+                <div className="relative flex-grow flex items-center bg-black/60 border border-white/10 rounded overflow-hidden focus-within:border-[#FF5A1F]/50 transition-colors">
+                  <span className="text-[0.6rem] text-[#FF5A1F] pl-3 pr-1 select-none opacity-80 shrink-0">
+                    vaelora@lab:~#
+                  </span>
+                  <input 
+                    type="text"
+                    value={flagInput}
+                    onChange={(e) => setFlagInput(e.target.value)}
+                    disabled={isSubmitting}
+                    placeholder="FLAG{...}"
+                    className="w-full bg-transparent border-0 text-white placeholder-white/20 px-1 py-2 text-xs focus:outline-none focus:ring-0 shrink"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting || !flagInput.trim()}
+                  className="px-4 py-2 font-mono text-[0.7rem] uppercase tracking-wider bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 text-[#FF5A1F] hover:bg-[#FF5A1F] hover:text-black hover:shadow-[0_0_15px_rgba(255,90,31,0.4)] transition-all rounded disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+                >
+                  {isSubmitting ? "Verifying..." : "Submit"}
+                </button>
+              </form>
+              
+              {serverMessage && (
+                <p className="font-mono text-[0.6rem] text-red-500 uppercase tracking-wider pl-1 animate-pulse">
+                  ✗ {serverMessage}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

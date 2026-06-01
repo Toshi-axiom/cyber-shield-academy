@@ -33,7 +33,7 @@ function Courses() {
       <div className="mx-auto max-w-[1280px] px-6 py-12">
         <Reveal>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Curriculum</span>
-          <h1 className="mt-2 font-display text-5xl tracking-wide text-foreground md:text-7xl">
+          <h1 className="mt-2 font-orbitron text-5xl tracking-wide text-foreground md:text-7xl">
             The path to defender.
           </h1>
           <p className="mt-3 max-w-2xl text-muted-foreground">

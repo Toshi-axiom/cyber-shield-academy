@@ -69,7 +69,7 @@ export const Route = createFileRoute("/quiz/$phaseId")({
 function Quiz() {
   const { phaseId } = Route.useParams();
   const phase = getPhase(phaseId)!;
-  const { addXp } = useProgress();
+  const { submitQuiz } = useProgress();
   const [questions] = useState(() => buildQuestions(phaseId));
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -86,15 +86,18 @@ function Quiz() {
     if (i === q.answer) setScore((s) => s + 1);
   };
 
-  const nextQ = () => {
+  const nextQ = async () => {
     if (idx < questions.length - 1) {
       setIdx(idx + 1);
       setSelected(null);
       setRevealed(false);
     } else {
-      const xp = score * 20;
-      addXp(xp);
-      toast.success(`Quiz complete — +${xp} XP`);
+      const res = await submitQuiz(phaseId, score, questions.length);
+      if (res && res.success && res.xp_earned > 0) {
+        toast.success(`Quiz complete — +${res.xp_earned} XP`);
+      } else {
+        toast.success("Quiz complete!");
+      }
       setDone(true);
     }
   };
@@ -108,7 +111,7 @@ function Quiz() {
     return (
       <main className="mx-auto flex min-h-[70vh] max-w-[700px] flex-col items-center justify-center px-6 py-16 text-center">
         <Trophy className="h-14 w-14 text-primary" />
-        <h1 className="mt-6 font-display text-6xl tracking-wide text-foreground">{pct}%</h1>
+        <h1 className="mt-6 font-orbitron text-6xl tracking-wide text-foreground">{pct}%</h1>
         <p className="mt-2 text-muted-foreground">
           You scored {score} / {questions.length} on the {phase.title} quiz.
         </p>

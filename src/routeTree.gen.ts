@@ -10,8 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as LabsRouteImport } from './routes/labs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as ChallengesRouteImport } from './routes/challenges'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuizPhaseIdRouteImport } from './routes/quiz.$phaseId'
@@ -22,6 +27,26 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabsRoute = LabsRouteImport.update({
+  id: '/labs',
+  path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -30,6 +55,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const CoursesRoute = CoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChallengesRoute = ChallengesRouteImport.update({
+  id: '/challenges',
+  path: '/challenges',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -56,8 +86,13 @@ const LessonPhaseIdModuleIdRoute = LessonPhaseIdModuleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/challenges': typeof ChallengesRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/labs': typeof LabsRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
@@ -65,8 +100,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/challenges': typeof ChallengesRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/labs': typeof LabsRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
@@ -75,8 +115,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/challenges': typeof ChallengesRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/labs': typeof LabsRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/quiz/$phaseId': typeof QuizPhaseIdRoute
   '/lesson/$phaseId/$moduleId': typeof LessonPhaseIdModuleIdRoute
@@ -86,8 +131,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/challenges'
     | '/courses'
     | '/dashboard'
+    | '/labs'
+    | '/leaderboard'
+    | '/reset-password'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/quiz/$phaseId'
     | '/lesson/$phaseId/$moduleId'
@@ -95,8 +145,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/challenges'
     | '/courses'
     | '/dashboard'
+    | '/labs'
+    | '/leaderboard'
+    | '/reset-password'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/quiz/$phaseId'
     | '/lesson/$phaseId/$moduleId'
@@ -104,8 +159,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/challenges'
     | '/courses'
     | '/dashboard'
+    | '/labs'
+    | '/leaderboard'
+    | '/reset-password'
+    | '/roadmap'
     | '/sitemap.xml'
     | '/quiz/$phaseId'
     | '/lesson/$phaseId/$moduleId'
@@ -114,8 +174,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  ChallengesRoute: typeof ChallengesRoute
   CoursesRoute: typeof CoursesRoute
   DashboardRoute: typeof DashboardRoute
+  LabsRoute: typeof LabsRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  RoadmapRoute: typeof RoadmapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   QuizPhaseIdRoute: typeof QuizPhaseIdRoute
   LessonPhaseIdModuleIdRoute: typeof LessonPhaseIdModuleIdRoute
@@ -130,6 +195,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labs': {
+      id: '/labs'
+      path: '/labs'
+      fullPath: '/labs'
+      preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -142,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/courses'
       preLoaderRoute: typeof CoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/challenges': {
+      id: '/challenges'
+      path: '/challenges'
+      fullPath: '/challenges'
+      preLoaderRoute: typeof ChallengesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -178,8 +278,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  ChallengesRoute: ChallengesRoute,
   CoursesRoute: CoursesRoute,
   DashboardRoute: DashboardRoute,
+  LabsRoute: LabsRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  RoadmapRoute: RoadmapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   QuizPhaseIdRoute: QuizPhaseIdRoute,
   LessonPhaseIdModuleIdRoute: LessonPhaseIdModuleIdRoute,

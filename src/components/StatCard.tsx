@@ -45,7 +45,7 @@ export function StatCard({
   const { val, ref } = useCountUp(value);
   return (
     <div ref={ref} className="rounded-[var(--radius-lg)] border border-border bg-[var(--bg-secondary)] p-6 text-center">
-      <div className="font-display text-5xl tracking-wide text-primary md:text-6xl">
+      <div className="font-orbitron text-5xl tracking-wide text-primary md:text-6xl">
         {prefix}
         {val.toLocaleString()}
         {suffix}
