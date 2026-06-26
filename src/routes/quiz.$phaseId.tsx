@@ -14,22 +14,22 @@ interface Question {
 // A compact, phase-flavored question bank.
 function buildQuestions(phaseId: string): Question[] {
   const generic: Record<string, Question[]> = {
-    foundations: [
+    "digital-foundations": [
       { q: "Which command shows active network listeners on Linux?", options: ["ls -la", "ss -tulpn", "chmod 777", "cat /etc/passwd"], answer: 1 },
       { q: "What does the ARP protocol resolve?", options: ["Domain to IP", "IP to MAC", "Port to service", "Hash to text"], answer: 1 },
       { q: "Which file stores Linux user account info?", options: ["/etc/shadow", "/etc/hosts", "/etc/passwd", "/var/log/auth"], answer: 2 },
     ],
-    crypto: [
+    "web-security": [
       { q: "A padding oracle attack targets which mode?", options: ["GCM", "CBC", "CTR", "ECB"], answer: 1 },
       { q: "Heartbleed was a vulnerability in?", options: ["OpenSSL", "OpenSSH", "WPA2", "Kerberos"], answer: 0 },
       { q: "Salting passwords primarily defends against?", options: ["Brute force", "Rainbow tables", "Phishing", "MITM"], answer: 1 },
     ],
-    soc: [
+    "defensive-security": [
       { q: "What does MTTD stand for?", options: ["Mean Time To Defend", "Mean Time To Detect", "Max Threat Threshold", "Managed Threat Detection"], answer: 1 },
       { q: "A P1 incident is best described as?", options: ["Informational", "Low priority", "Critical/severe", "A false positive"], answer: 2 },
       { q: "Sigma rules are used for?", options: ["Encryption", "Detection logic", "Password storage", "Load balancing"], answer: 1 },
     ],
-    ai: [
+    "ai-security": [
       { q: "Prompt injection primarily attacks?", options: ["The GPU", "Model guardrails/instructions", "The network", "The database index"], answer: 1 },
       { q: "Data poisoning targets which stage?", options: ["Inference only", "Training data", "TLS handshake", "DNS resolution"], answer: 1 },
       { q: "Membership inference tries to determine?", options: ["Model size", "If a sample was in training data", "GPU vendor", "Token cost"], answer: 1 },

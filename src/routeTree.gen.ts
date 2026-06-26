@@ -12,12 +12,22 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as LabsRouteImport } from './routes/labs'
+import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as ForumRouteImport } from './routes/forum'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as DocumentationRouteImport } from './routes/documentation'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CheatSheetsRouteImport } from './routes/cheat-sheets'
 import { Route as ChallengesRouteImport } from './routes/challenges'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuizPhaseIdRouteImport } from './routes/quiz.$phaseId'
 import { Route as LessonPhaseIdModuleIdRouteImport } from './routes/lesson.$phaseId.$moduleId'
@@ -37,6 +47,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
   id: '/leaderboard',
   path: '/leaderboard',
@@ -45,6 +60,26 @@ const LeaderboardRoute = LeaderboardRouteImport.update({
 const LabsRoute = LabsRouteImport.update({
   id: '/labs',
   path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesRoute = GuidesRouteImport.update({
+  id: '/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForumRoute = ForumRouteImport.update({
+  id: '/forum',
+  path: '/forum',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentationRoute = DocumentationRouteImport.update({
+  id: '/documentation',
+  path: '/documentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -57,14 +92,39 @@ const CoursesRoute = CoursesRouteImport.update({
   path: '/courses',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheatSheetsRoute = CheatSheetsRouteImport.update({
+  id: '/cheat-sheets',
+  path: '/cheat-sheets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChallengesRoute = ChallengesRouteImport.update({
   id: '/challenges',
   path: '/challenges',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -85,12 +145,22 @@ const LessonPhaseIdModuleIdRoute = LessonPhaseIdModuleIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/challenges': typeof ChallengesRoute
+  '/cheat-sheets': typeof CheatSheetsRoute
+  '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/events': typeof EventsRoute
+  '/forum': typeof ForumRoute
+  '/guides': typeof GuidesRoute
   '/labs': typeof LabsRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -99,12 +169,22 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/challenges': typeof ChallengesRoute
+  '/cheat-sheets': typeof CheatSheetsRoute
+  '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/events': typeof EventsRoute
+  '/forum': typeof ForumRoute
+  '/guides': typeof GuidesRoute
   '/labs': typeof LabsRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -114,12 +194,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/challenges': typeof ChallengesRoute
+  '/cheat-sheets': typeof CheatSheetsRoute
+  '/contact': typeof ContactRoute
   '/courses': typeof CoursesRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/events': typeof EventsRoute
+  '/forum': typeof ForumRoute
+  '/guides': typeof GuidesRoute
   '/labs': typeof LabsRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/roadmap': typeof RoadmapRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -130,12 +220,22 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/careers'
     | '/challenges'
+    | '/cheat-sheets'
+    | '/contact'
     | '/courses'
     | '/dashboard'
+    | '/documentation'
+    | '/events'
+    | '/forum'
+    | '/guides'
     | '/labs'
     | '/leaderboard'
+    | '/privacy'
     | '/reset-password'
     | '/roadmap'
     | '/sitemap.xml'
@@ -144,12 +244,22 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/careers'
     | '/challenges'
+    | '/cheat-sheets'
+    | '/contact'
     | '/courses'
     | '/dashboard'
+    | '/documentation'
+    | '/events'
+    | '/forum'
+    | '/guides'
     | '/labs'
     | '/leaderboard'
+    | '/privacy'
     | '/reset-password'
     | '/roadmap'
     | '/sitemap.xml'
@@ -158,12 +268,22 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/auth'
+    | '/blog'
+    | '/careers'
     | '/challenges'
+    | '/cheat-sheets'
+    | '/contact'
     | '/courses'
     | '/dashboard'
+    | '/documentation'
+    | '/events'
+    | '/forum'
+    | '/guides'
     | '/labs'
     | '/leaderboard'
+    | '/privacy'
     | '/reset-password'
     | '/roadmap'
     | '/sitemap.xml'
@@ -173,12 +293,22 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRoute
+  CareersRoute: typeof CareersRoute
   ChallengesRoute: typeof ChallengesRoute
+  CheatSheetsRoute: typeof CheatSheetsRoute
+  ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRoute
   DashboardRoute: typeof DashboardRoute
+  DocumentationRoute: typeof DocumentationRoute
+  EventsRoute: typeof EventsRoute
+  ForumRoute: typeof ForumRoute
+  GuidesRoute: typeof GuidesRoute
   LabsRoute: typeof LabsRoute
   LeaderboardRoute: typeof LeaderboardRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RoadmapRoute: typeof RoadmapRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -209,6 +339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/leaderboard': {
       id: '/leaderboard'
       path: '/leaderboard'
@@ -221,6 +358,34 @@ declare module '@tanstack/react-router' {
       path: '/labs'
       fullPath: '/labs'
       preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides': {
+      id: '/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forum': {
+      id: '/forum'
+      path: '/forum'
+      fullPath: '/forum'
+      preLoaderRoute: typeof ForumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentation': {
+      id: '/documentation'
+      path: '/documentation'
+      fullPath: '/documentation'
+      preLoaderRoute: typeof DocumentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -237,6 +402,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cheat-sheets': {
+      id: '/cheat-sheets'
+      path: '/cheat-sheets'
+      fullPath: '/cheat-sheets'
+      preLoaderRoute: typeof CheatSheetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/challenges': {
       id: '/challenges'
       path: '/challenges'
@@ -244,11 +423,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChallengesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -277,12 +477,22 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRoute,
+  CareersRoute: CareersRoute,
   ChallengesRoute: ChallengesRoute,
+  CheatSheetsRoute: CheatSheetsRoute,
+  ContactRoute: ContactRoute,
   CoursesRoute: CoursesRoute,
   DashboardRoute: DashboardRoute,
+  DocumentationRoute: DocumentationRoute,
+  EventsRoute: EventsRoute,
+  ForumRoute: ForumRoute,
+  GuidesRoute: GuidesRoute,
   LabsRoute: LabsRoute,
   LeaderboardRoute: LeaderboardRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RoadmapRoute: RoadmapRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

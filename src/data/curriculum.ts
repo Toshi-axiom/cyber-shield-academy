@@ -29,503 +29,717 @@ export interface Phase {
 
 export const phases: Phase[] = [
   {
-    id: "foundations",
-    num: 1,
-    code: "Phase 01",
-    title: "Networking & Linux Foundations",
-    tagline: "Master the terrain before the battle.",
+    id: "digital-foundations",
+    num: 0,
+    code: "Phase 00",
+    title: "Digital Foundations",
+    tagline: "Master the digital landscape.",
     description:
-      "Every defender starts here. Build fluency with the Linux command line, TCP/IP, and the protocols attackers abuse every day.",
+      "Provide foundational understanding of computing systems and internet technologies.",
     difficulty: "Beginner",
     accent: "foundation",
     modules: [
       {
-        id: "f-1",
-        code: "1.1",
-        title: "Linux Command Line Mastery",
-        summary: "Navigate, automate, and weaponize the shell.",
-        topics: ["Filesystem & permissions", "Pipes & redirection", "Bash scripting", "Process & service control", "User & group management"],
-        lab: {
-          title: "Shell Survival Lab",
-          description: "Recover a 'compromised' server using only the terminal.",
-          steps: [
-            "Locate hidden files dropped in /tmp and /var/www",
-            "Inspect running processes and kill the rogue listener",
-            "Read auth logs to find the attacker's source IP",
-            "Write a one-line bash script to lock the offending account",
-          ],
-        },
+        id: "intro-1",
+        code: "0.0",
+        title: "Introduction to Cybersecurity",
+        summary: "Understand the real-world attack lifecycle, adversary profiles, and Vaelora's defense philosophy.",
+        topics: [
+          "The Attack Lifecycle"
+        ]
       },
       {
-        id: "f-2",
-        code: "1.2",
-        title: "TCP/IP & Network Protocols",
-        summary: "How packets move — and how they leak.",
-        topics: ["OSI & TCP/IP models", "DNS, DHCP, ARP", "Subnetting", "Routing & switching", "Wireshark fundamentals"],
+        id: "df-1",
+        code: "0.1",
+        title: "Computer Systems",
+        summary: "Understand hardware, operating systems, and virtualization.",
+        topics: [
+          "CPU Architecture",
+          "Memory Management",
+          "Storage Systems",
+          "Operating Systems",
+          "Identity & Trust",
+          "Virtualization",
+          "Containers"
+        ],
         lab: {
-          title: "Packet Detective",
-          description: "Analyze a real capture to reconstruct an intrusion.",
+          title: "System Discovery Lab",
+          description: "Inspect system parameters and container runtimes.",
           steps: [
-            "Open the provided PCAP and filter for DNS traffic",
-            "Identify the beaconing interval of the C2 channel",
-            "Extract exfiltrated data from the HTTP stream",
-            "Document the full attack timeline",
-          ],
-        },
+            "Identify CPU structure and memory distribution",
+            "Verify partition layouts and mounted filesystems",
+            "List running services under the host OS",
+            "Run a mock container container checklist"
+          ]
+        }
       },
       {
-        id: "f-3",
-        code: "1.3",
-        title: "System Hardening Basics",
-        summary: "Reduce the attack surface from day one.",
-        topics: ["Firewall (iptables/ufw)", "SSH hardening", "Patch management", "Service minimization", "File integrity monitoring"],
-      },
-    ],
+        id: "df-2",
+        code: "0.2",
+        title: "Internet Technologies",
+        summary: "How the global net resolves and routes information.",
+        topics: [
+          "Networking Fundamentals",
+          "DNS",
+          "HTTP/HTTPS",
+          "Client-Server Architecture",
+          "Cloud Computing Basics"
+        ],
+        lab: {
+          title: "Web Inspector Lab",
+          description: "Audit web payloads and trace DNS routes.",
+          steps: [
+            "Resolve hostnames to active IP targets",
+            "Audit raw HTTP/HTTPS headers",
+            "Inspect client-server headers",
+            "Document cloud provider zones"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "offense-fundamentals",
-    num: 2,
-    code: "Phase 02",
-    title: "Offensive Security Fundamentals",
-    tagline: "Think like the adversary.",
+    id: "programming-networking",
+    num: 1,
+    code: "Phase 01",
+    title: "Programming & Networking",
+    tagline: "Speak the language of computers and networks.",
     description:
-      "Recon, scanning, exploitation, and post-exploitation. Learn the attacker kill chain through hands-on hacking.",
-    difficulty: "Intermediate",
+      "Build automation scripts, learn socket programming, and dive deep into network packets and protocols.",
+    difficulty: "Beginner",
+    accent: "foundation",
+    modules: [
+      {
+        id: "pn-1",
+        code: "1.1",
+        title: "Programming for Security",
+        summary: "Automate security tasks, query databases, and script in Python & Bash.",
+        topics: [
+          "Python",
+          "Bash",
+          "SQL",
+          "JavaScript Fundamentals",
+          "APIs",
+          "Socket Programming",
+          "Automation"
+        ],
+        lab: {
+          title: "Port Scanner Developer",
+          description: "Develop a custom port scanner and log auditor.",
+          steps: [
+            "Build a raw TCP socket connector in Python",
+            "Write a bash wrapper to loop through active hosts",
+            "Implement basic SQL queries to log results",
+            "Parse JSON payloads from an external vulnerability API"
+          ]
+        }
+      },
+      {
+        id: "pn-2",
+        code: "1.2",
+        title: "Networking Deep Dive",
+        summary: "Analyze packets, understand routing tables, and dissect network interfaces.",
+        topics: [
+          "OSI Model",
+          "TCP/IP",
+          "Routing",
+          "Switching",
+          "VLANs",
+          "Firewalls",
+          "VPNs",
+          "DNS",
+          "SMB",
+          "LDAP"
+        ],
+        lab: {
+          title: "Network Traffic Dissector",
+          description: "Analyze captured traffic and configure routing policies.",
+          steps: [
+            "Examine TCP handshakes and flags in Wireshark",
+            "Audit Active Directory SMB/LDAP packets",
+            "Configure a router filter block",
+            "Identify anomalous protocol tunneling"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: "hacker-bootcamp",
+    num: 1.5,
+    code: "Phase 1.5",
+    title: "Hacker Bootcamp",
+    tagline: "Enter the mind of the attacker early.",
+    description:
+      "Introduce students to offensive security early in the curriculum to increase engagement and motivation.",
+    difficulty: "Beginner",
     accent: "offense",
     modules: [
       {
-        id: "o-1",
-        code: "2.1",
-        title: "Reconnaissance & OSINT",
-        summary: "The map before the mission.",
-        topics: ["Passive vs active recon", "OSINT frameworks", "Subdomain enumeration", "Google dorking", "Metadata analysis"],
+        id: "hb-1",
+        code: "1.5",
+        title: "Offensive Security Basics",
+        summary: "Practice basic enumeration and exploitation on a target.",
+        topics: [
+          "Nmap",
+          "Burp Suite",
+          "Enumeration",
+          "Password Attacks",
+          "Basic Exploitation"
+        ],
         lab: {
-          title: "Footprint a Target",
-          description: "Build a full profile of a fictional org from public data.",
+          title: "Bootcamp CTF",
+          description: "Run basic scanning and password cracking tools to capture the flag.",
           steps: [
-            "Enumerate subdomains with amass",
-            "Harvest employee emails and infer naming conventions",
-            "Map exposed services with Shodan-style queries",
-            "Produce a recon report with attack surface findings",
-          ],
-        },
-      },
-      {
-        id: "o-2",
-        code: "2.2",
-        title: "Scanning & Enumeration",
-        summary: "Find the doors, then find the locks.",
-        topics: ["Nmap deep dive", "Service & version detection", "Vulnerability scanning", "SMB & SNMP enumeration", "Banner grabbing"],
-        lab: {
-          title: "Nmap Range",
-          description: "Enumerate a vulnerable network segment.",
-          steps: [
-            "Run a staged Nmap scan against the lab subnet",
-            "Identify the OS and open service versions",
-            "Cross-reference versions with known CVEs",
-            "Prioritize hosts by exploitability",
-          ],
-        },
-      },
-      {
-        id: "o-3",
-        code: "2.3",
-        title: "Exploitation & Privilege Escalation",
-        summary: "From foothold to full control.",
-        topics: ["Metasploit fundamentals", "Manual exploitation", "Linux privesc", "Windows privesc", "Pivoting"],
-        lab: {
-          title: "Capture the Root",
-          description: "Compromise a vulnerable box end-to-end.",
-          steps: [
-            "Exploit the exposed service for an initial shell",
-            "Enumerate the host for privesc vectors",
-            "Escalate to root using a misconfigured SUID binary",
-            "Establish persistence and grab the flag",
-          ],
-        },
-      },
-    ],
+            "Run an Nmap scan to find open ports",
+            "Intercept HTTP requests with Burp Suite",
+            "Launch a brute-force password attack",
+            "Exploit a simple vulnerable web service"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "crypto",
-    num: 3,
-    code: "Phase 03",
-    title: "Applied Cryptography",
-    tagline: "Where math meets exploitation.",
+    id: "system-administration",
+    num: 2,
+    code: "Phase 02",
+    title: "Linux, Windows & System Administration",
+    tagline: "Control the environments you defend.",
     description:
-      "Attack-centric cryptography. Don't just memorize AES and RSA — learn exactly where and why implementations break.",
+      "Establish administrative access controls, secure services, and manage identities across enterprise networks.",
     difficulty: "Intermediate",
     accent: "foundation",
     modules: [
       {
-        id: "c-1",
-        code: "3.1",
-        title: "Symmetric Encryption & Its Failures",
-        summary: "AES is strong. The way people use it isn't.",
-        topics: ["AES & modes of operation", "CBC vs GCM", "Padding oracle attacks", "ECB pattern leakage", "IV reuse attacks"],
+        id: "sa-1",
+        code: "2.1",
+        title: "Enterprise Administration",
+        summary: "Secure operating systems and directory services.",
+        topics: [
+          "Linux Security",
+          "Shell Scripting",
+          "SSH",
+          "PowerShell",
+          "Active Directory Fundamentals",
+          "Group Policy",
+          "Event Logging",
+          "Authentication Systems",
+          "Access Control"
+        ],
         lab: {
-          title: "Break the Cipher",
-          description: "Exploit a padding oracle to decrypt without the key.",
+          title: "Domain Hardening",
+          description: "Secure an administrative endpoint and Active Directory tree.",
           steps: [
-            "Identify the CBC padding oracle in the web app",
-            "Use the oracle to recover one block of plaintext",
-            "Automate full-message decryption",
-            "Demonstrate ECB image pattern leakage",
-          ],
-        },
-      },
-      {
-        id: "c-2",
-        code: "3.2",
-        title: "TLS, PKI & HTTPS Attacks",
-        summary: "The handshake everyone trusts.",
-        topics: ["TLS handshake", "Certificates & PKI", "BEAST & POODLE", "Heartbleed", "SSL stripping"],
-        lab: {
-          title: "TLS Downgrade Lab",
-          description: "Simulate a protocol downgrade on a test server.",
-          steps: [
-            "Inspect the server's supported cipher suites",
-            "Force a downgrade to a vulnerable protocol",
-            "Capture and analyze the weakened handshake",
-            "Recommend a hardened TLS configuration",
-          ],
-        },
-      },
-      {
-        id: "c-3",
-        code: "3.3",
-        title: "Hashing & Public-Key Attacks",
-        summary: "Passwords, signatures, and key reuse.",
-        topics: ["Hashing & salting", "Key derivation", "Rainbow tables", "Credential stuffing & spraying", "RSA padding flaws"],
-        lab: {
-          title: "Crack the Vault",
-          description: "Recover credentials from a leaked hash dump.",
-          steps: [
-            "Identify the hashing algorithm and detect missing salts",
-            "Run a dictionary + rule attack with hashcat",
-            "Demonstrate why salted hashes resist rainbow tables",
-            "Propose a modern KDF migration plan",
-          ],
-        },
-      },
-    ],
+            "Configure host-based firewall policies and SSH keys",
+            "Write a PowerShell script to audit domain users",
+            "Establish strict Group Policies (GPOs) for system access",
+            "Inspect event logs to trace unauthorized access"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "web",
-    num: 4,
-    code: "Phase 04",
+    id: "web-security",
+    num: 3,
+    code: "Phase 03",
     title: "Web Application Security",
-    tagline: "The internet's biggest attack surface.",
+    tagline: "Find and fix vulnerabilities on the web.",
     description:
-      "OWASP Top 10 and beyond. Find, exploit, and remediate the vulnerabilities that power most breaches today.",
+      "Analyze web architectures, exploit OWASP Top 10 vulnerabilities, and implement secure coding controls.",
     difficulty: "Intermediate",
     accent: "offense",
     modules: [
       {
-        id: "w-1",
-        code: "4.1",
-        title: "OWASP Top 10 Deep Dive",
-        summary: "The classics, weaponized.",
-        topics: ["Injection (SQLi, NoSQLi)", "Broken access control", "XSS variants", "SSRF", "Insecure deserialization"],
+        id: "was-1",
+        code: "3.1",
+        title: "Web Vulnerability Analysis",
+        summary: "Audit and exploit a web-based e-commerce platform.",
+        topics: [
+          "Web Architecture",
+          "Sessions and Cookies",
+          "JWT Authentication",
+          "REST APIs",
+          "OWASP Top 10",
+          "SQL Injection",
+          "XSS",
+          "CSRF",
+          "SSRF",
+          "File Upload Vulnerabilities",
+          "Secure Coding Principles"
+        ],
         lab: {
-          title: "Hack the Shop",
-          description: "Exploit a deliberately vulnerable e-commerce app.",
+          title: "Vulnerable Shop Hack",
+          description: "Audit and exploit a web-based e-commerce platform.",
           steps: [
-            "Bypass login with a SQL injection payload",
-            "Escalate privileges via broken access control",
-            "Steal an admin session with stored XSS",
-            "Chain an SSRF to reach the internal metadata service",
-          ],
-        },
-      },
-      {
-        id: "w-2",
-        code: "4.2",
-        title: "API & Authentication Attacks",
-        summary: "Where modern apps actually live.",
-        topics: ["REST & GraphQL abuse", "JWT attacks", "OAuth misconfig", "Rate-limit bypass", "Mass assignment"],
-        lab: {
-          title: "Token Forgery",
-          description: "Defeat a JWT-based auth system.",
-          steps: [
-            "Decode the JWT and identify the signing algorithm",
-            "Exploit an 'alg: none' misconfiguration",
-            "Forge an admin token and access protected routes",
-            "Recommend secure JWT validation",
-          ],
-        },
-      },
-    ],
+            "Bypass authentication via SQL injection",
+            "Exploit XSS to capture administrative session cookies",
+            "Chain an SSRF vulnerability to read server metadata",
+            "Remediate code vulnerabilities using parameterization"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "cloud",
-    num: 5,
-    code: "Phase 05",
-    title: "Cloud & Container Security",
-    tagline: "Securing ephemeral infrastructure.",
+    id: "ethical-hacking",
+    num: 4,
+    code: "Phase 04",
+    title: "Ethical Hacking & Penetration Testing",
+    tagline: "Conduct professional offensive assessments.",
     description:
-      "2025+ cloud realities: multi-cloud IAM, Docker, Kubernetes, CI/CD, and serverless — both attack and defense.",
-    difficulty: "Advanced",
-    accent: "cloud",
+      "Recon, scan, exploit, escalate, and report. Master the modern pentester toolkit.",
+    difficulty: "Intermediate",
+    accent: "offense",
     modules: [
       {
-        id: "cl-1",
-        code: "5.1",
-        title: "Cloud Identity & Access Security",
-        summary: "Identity is the new perimeter.",
-        topics: ["AWS / Azure / GCP basics", "IAM privilege escalation", "Federated identity abuse", "STS token theft", "Secrets exposure"],
+        id: "eh-1",
+        code: "4.1",
+        title: "Penetration Testing Operations",
+        summary: "Execute a full penetration test against a network host.",
+        topics: [
+          "Reconnaissance",
+          "OSINT",
+          "Enumeration",
+          "Vulnerability Assessment",
+          "Exploitation",
+          "Privilege Escalation",
+          "Post Exploitation",
+          "Reporting"
+        ],
         lab: {
-          title: "Escalate in the Cloud",
-          description: "Pivot through misconfigured IAM roles.",
+          title: "Foothold to Domain Admin",
+          description: "Execute a full penetration test against a network host.",
           steps: [
-            "Enumerate permissions of a leaked access key",
-            "Identify an over-permissive role chain",
-            "Assume a privileged role via STS",
-            "Access the protected S3 bucket and report the path",
-          ],
-        },
-      },
-      {
-        id: "cl-2",
-        code: "5.2",
-        title: "Container & Kubernetes Security",
-        summary: "Breaking out of the box.",
-        topics: ["Docker architecture", "Container escape", "Privileged containers", "K8s RBAC abuse", "Pod escape & exposed etcd"],
-        lab: {
-          title: "Escape the Cluster",
-          description: "Break out of a vulnerable Kubernetes pod.",
-          steps: [
-            "Identify the privileged pod misconfiguration",
-            "Mount the host filesystem from inside the container",
-            "Abuse RBAC to read cluster secrets",
-            "Detect the escape with Falco rules",
-          ],
-        },
-      },
-      {
-        id: "cl-3",
-        code: "5.3",
-        title: "CI/CD & Serverless Security",
-        summary: "Poisoning the pipeline.",
-        topics: ["GitHub Actions abuse", "Pipeline poisoning", "Dependency compromise", "Lambda attack surface", "Event injection"],
-        lab: {
-          title: "Pipeline Poisoning",
-          description: "Compromise a build through a malicious dependency.",
-          steps: [
-            "Identify the untrusted input in the CI workflow",
-            "Inject a payload via a poisoned dependency",
-            "Exfiltrate the pipeline's secrets",
-            "Harden the workflow with least-privilege tokens",
-          ],
-        },
-      },
-    ],
+            "Conduct passive OSINT to identify user domains",
+            "Scan target services and identify exploitable CVEs",
+            "Compromise the user shell and escalate privileges",
+            "Draft a professional executive remediation report"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "mobile-iot",
-    num: 6,
-    code: "Phase 06",
-    title: "Mobile, IoT & Hardware Security",
-    tagline: "Security beyond the server.",
+    id: "active-directory-attacks",
+    num: 5,
+    code: "Phase 05",
+    title: "Active Directory & Enterprise Attacks",
+    tagline: "Compromise and secure directory services.",
     description:
-      "Modern red teams hit phones, firmware, and embedded devices. Learn the attack surface most curricula ignore.",
+      "Explore Kerberos vulnerabilities, trust relationships, BloodHound analysis, and Active Directory hardening.",
     difficulty: "Advanced",
     accent: "offense",
     modules: [
       {
-        id: "m-1",
-        code: "6.1",
-        title: "Mobile Application Security",
-        summary: "The device in everyone's pocket.",
-        topics: ["Android & iOS architecture", "Static & dynamic analysis", "Insecure storage", "Certificate pinning bypass", "Frida instrumentation"],
+        id: "ad-1",
+        code: "5.1",
+        title: "AD Domain Attacks",
+        summary: "Audit and compromise a mock Active Directory domain controller.",
+        topics: [
+          "Active Directory Architecture",
+          "Kerberos",
+          "LDAP",
+          "Trust Relationships",
+          "BloodHound Analysis",
+          "Kerberoasting",
+          "AS-REP Roasting",
+          "Pass-the-Hash",
+          "Pass-the-Ticket",
+          "Golden Ticket",
+          "Silver Ticket",
+          "DCSync",
+          "Active Directory Hardening",
+          "Tiered Administration",
+          "Identity Security"
+        ],
         lab: {
-          title: "Reverse the App",
-          description: "Analyze a vulnerable Android APK.",
+          title: "Domain Domination",
+          description: "Audit and compromise a mock Active Directory domain controller.",
           steps: [
-            "Decompile the APK and review the manifest",
-            "Locate hardcoded secrets and insecure storage",
-            "Bypass root detection with Frida",
-            "Intercept TLS traffic past certificate pinning",
-          ],
-        },
+            "Run BloodHound to map privilege escalation paths",
+            "Extract Kerberos ticket hashes via Kerberoasting",
+            "Impersonate administrator using a Golden Ticket",
+            "Implement Active Directory hardening and tiering"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: "cloud-containers-devsecops",
+    num: 6,
+    code: "Phase 06",
+    title: "Cloud, Containers & DevSecOps",
+    tagline: "Secure modern cloud infrastructure.",
+    description:
+      "Secure container workloads, Kubernetes environments, CI/CD pipelines, and IAM configurations.",
+    difficulty: "Advanced",
+    accent: "cloud",
+    modules: [
+      {
+        id: "ccd-1",
+        code: "6.1",
+        title: "Cloud Security Architecture",
+        summary: "Audit cloud identity controls and secure container configurations.",
+        topics: [
+          "AWS Security",
+          "Azure Security",
+          "GCP Security",
+          "IAM Security",
+          "Docker Security",
+          "Container Escapes",
+          "Kubernetes Security",
+          "RBAC Abuse",
+          "CI/CD Security",
+          "GitHub Actions Security",
+          "Dependency Attacks",
+          "Serverless Security",
+          "Cloud Detection Engineering"
+        ],
+        lab: {
+          title: "Cloud Infrastructure Audit",
+          description: "Audit cloud identity controls and secure container configurations.",
+          steps: [
+            "Audit IAM credentials for excessive privileges",
+            "Exploit a container escape to reach the host system",
+            "Configure Kubernetes RBAC rules under least-privilege",
+            "Implement automated dependency scans in the build pipeline"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: "defensive-security",
+    num: 7,
+    code: "Phase 07",
+    title: "Defensive Security, SOC & Purple Teaming",
+    tagline: "Monitor, detect, and hunt threat actors.",
+    description:
+      "Run SOC operations, compile Sigma/YARA rules, hunt advanced threats, and validate controls via purple teaming.",
+    difficulty: "Advanced",
+    accent: "defense",
+    modules: [
+      {
+        id: "ds-1",
+        code: "7.1",
+        title: "Security Operations Center",
+        summary: "Triage raw events inside a simulated SIEM system.",
+        topics: [
+          "SIEM",
+          "Log Correlation",
+          "Alert Triage",
+          "Incident Response"
+        ],
+        lab: {
+          title: "Alert Triage Lab",
+          description: "Triage raw events inside a simulated SIEM system.",
+          steps: [
+            "Correlate syslog traffic to identify scanning patterns",
+            "Grade alerts using a standardized severity index",
+            "Run a mock containment playbook against a compromised host"
+          ]
+        }
       },
       {
-        id: "m-2",
-        code: "6.2",
-        title: "IoT & Firmware Security",
-        summary: "Hacking the physical world.",
-        topics: ["Firmware structure", "UART / SPI / I2C / JTAG", "Hardcoded credentials", "Firmware extraction (Binwalk)", "Emulation with QEMU"],
+        id: "ds-2",
+        code: "7.2",
+        title: "Detection Engineering",
+        summary: "Develop detection rules for common malware and exploits.",
+        topics: [
+          "Sigma Rules",
+          "YARA Rules",
+          "Detection Lifecycle",
+          "Threat Intelligence Integration"
+        ],
         lab: {
-          title: "Firmware Forensics",
-          description: "Extract secrets from a vulnerable firmware image.",
+          title: "Signature Compiler",
+          description: "Develop detection rules for common malware and exploits.",
           steps: [
-            "Carve the filesystem with binwalk",
-            "Search the rootfs for hardcoded credentials",
-            "Emulate the embedded web interface with QEMU",
-            "Identify and document the firmware vulnerability",
-          ],
-        },
+            "Write a YARA rule targeting a specific web shell signature",
+            "Draft a Sigma rule to detect LSASS memory dumping",
+            "Integrate threat indicators into active SIEM indexes"
+          ]
+        }
       },
-    ],
+      {
+        id: "ds-3",
+        code: "7.3",
+        title: "Threat Hunting",
+        summary: "Formulate and run a threat hunt in log records.",
+        topics: [
+          "IOC Hunting",
+          "Behavioral Analytics",
+          "ATT&CK Mapping",
+          "Hypothesis-Driven Hunting"
+        ],
+        lab: {
+          title: "Hypothesis Hunter",
+          description: "Formulate and run a threat hunt in log records.",
+          steps: [
+            "Create a hunting hypothesis for lateral movement",
+            "Query authentication logs using behavioral patterns",
+            "Map anomalies back to MITRE ATT&CK techniques"
+          ]
+        }
+      },
+      {
+        id: "ds-4",
+        code: "7.4",
+        title: "SOC Engineering",
+        summary: "Optimize alert configurations to reduce noise.",
+        topics: [
+          "MTTD",
+          "MTTR",
+          "Alert Fidelity",
+          "Detection Coverage",
+          "SLA Management"
+        ],
+        lab: {
+          title: "Metrics Optimizer",
+          description: "Optimize alert configurations to reduce noise.",
+          steps: [
+            "Audit false positive ratios in existing alerts",
+            "Tune detection rules to decrease alert fatigue",
+            "Measure mean time to detect (MTTD) on historic runs"
+          ]
+        }
+      },
+      {
+        id: "ds-5",
+        code: "7.5",
+        title: "Purple Team Operations",
+        summary: "Simulate attacks and verify detection triggers.",
+        topics: [
+          "Purple Team Methodology",
+          "ATT&CK-Based Validation",
+          "Detection Gap Analysis",
+          "Adversary Emulation",
+          "Threat-Informed Defense",
+          "Security Control Validation"
+        ],
+        lab: {
+          title: "Purple Team Simulator",
+          description: "Simulate attacks and verify detection triggers.",
+          steps: [
+            "Run adversary emulation scripts using Atomic Red Team",
+            "Perform a gap analysis on system log collection",
+            "Validate firewall block policies against attack vectors"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: "specialization-tracks",
+    num: 8,
+    code: "Phase 08",
+    title: "Specialization Tracks",
+    tagline: "Specialize in a high-demand domain.",
+    description:
+      "Choose a path: Malware Analysis, Digital Forensics & Incident Response, or IoT & Hardware Security.",
+    difficulty: "Advanced",
+    accent: "defense",
+    modules: [
+      {
+        id: "st-1",
+        code: "8.1",
+        title: "Malware Analysis & Reverse Engineering",
+        summary: "Analyze compiled x86 disassembly in Ghidra and trace malware behavior.",
+        topics: [
+          "x86 Assembly",
+          "Binary Analysis",
+          "Dynamic Analysis",
+          "Malware Behavior",
+          "Obfuscation Techniques",
+          "Ghidra"
+        ],
+        lab: {
+          title: "Malware Reverse Lab",
+          description: "Analyze a malicious binary using Ghidra and dynamic execution.",
+          steps: [
+            "Analyze compiled x86 disassembly in Ghidra",
+            "Audit system modifications using dynamic monitoring tools",
+            "De-obfuscate strings in memory dumps"
+          ]
+        }
+      },
+      {
+        id: "st-2",
+        code: "8.2",
+        title: "Digital Forensics & Incident Response",
+        summary: "Perform deep forensics on a compromised memory dump and reconstruct timelines.",
+        topics: [
+          "Memory Forensics",
+          "Disk Forensics",
+          "Log Analysis",
+          "Evidence Preservation",
+          "Incident Handling"
+        ],
+        lab: {
+          title: "Memory Investigator",
+          description: "Perform deep forensics on a compromised memory dump.",
+          steps: [
+            "Extract process lists and network states from volatile memory",
+            "Preserve storage device copies using hashing",
+            "Construct a master incident timeline from registry logs"
+          ]
+        }
+      },
+      {
+        id: "st-3",
+        code: "8.3",
+        title: "IoT & Embedded Security",
+        summary: "Decompile firmware filesystem structures using Binwalk and test hardware interfaces.",
+        topics: [
+          "Firmware Analysis",
+          "UART",
+          "SPI",
+          "I2C",
+          "JTAG",
+          "Hardware Security"
+        ],
+        lab: {
+          title: "Firmware Extractor",
+          description: "Decompress and analyze embedded firmware.",
+          steps: [
+            "Decompile firmware filesystem structures using Binwalk",
+            "Identify hardcoded keys in application code",
+            "Map physical debugging pins (UART/JTAG) on a diagram"
+          ]
+        }
+      }
+    ]
   },
   {
     id: "ai-security",
-    num: 7,
-    code: "Phase 07",
-    title: "AI & Adversarial Security",
-    tagline: "Defending the intelligent era.",
+    num: 9,
+    code: "Phase 09",
+    title: "AI for Cyber Security",
+    tagline: "Defend the artificial intelligence boundary.",
     description:
-      "The defining frontier. Attack and defend LLMs, ML pipelines, and AI-powered systems — the heart of Vaelora's mission.",
+      "Build AI-driven security defenses, defend models against poisoning, prompt injection, and jailbreaks.",
     difficulty: "Advanced",
     accent: "ai",
     modules: [
       {
         id: "ai-1",
-        code: "7.1",
-        title: "LLM & Prompt Security",
-        summary: "Breaking and defending language models.",
-        topics: ["Prompt injection", "Jailbreaks", "Data exfiltration via prompts", "Output handling", "Guardrail design"],
+        code: "9.1",
+        title: "AI-Powered Defense",
+        summary: "Attack and defend an LLM integration against prompt injections.",
+        topics: [
+          "Machine Learning Fundamentals",
+          "Large Language Models",
+          "AI Threat Detection",
+          "AI Malware Analysis",
+          "AI-Assisted Reconnaissance",
+          "Prompt Injection",
+          "Jailbreaking",
+          "Model Poisoning"
+        ],
         lab: {
-          title: "Jailbreak Lab",
-          description: "Defeat — then defend — an AI assistant's guardrails.",
+          title: "LLM Hardening Lab",
+          description: "Attack and defend an LLM integration against prompt injections.",
           steps: [
-            "Craft a direct prompt injection to leak the system prompt",
-            "Chain an indirect injection through retrieved content",
-            "Design input/output filters to block the attack",
-            "Validate your defenses against the original payloads",
-          ],
-        },
-      },
-      {
-        id: "ai-2",
-        code: "7.2",
-        title: "Adversarial ML & Model Attacks",
-        summary: "When the model itself is the target.",
-        topics: ["Data poisoning", "Model evasion", "Membership inference", "Model extraction", "Supply-chain risks in ML"],
-        lab: {
-          title: "Poison the Model",
-          description: "Demonstrate a poisoning attack on a classifier.",
-          steps: [
-            "Inject crafted samples into the training set",
-            "Measure the backdoor's effect on predictions",
-            "Detect the poisoning via anomaly analysis",
-            "Propose a robust training mitigation",
-          ],
-        },
-      },
-    ],
+            "Bypass model safety filters using a jailbreak payload",
+            "Audit training datasets for data poisoning samples",
+            "Implement an input-filtering guardrail model",
+            "Test defensive checks against known bypass patterns"
+          ]
+        }
+      }
+    ]
   },
   {
-    id: "soc",
-    num: 8,
-    code: "Phase 08",
-    title: "Blue Team & SOC Operations",
-    tagline: "Where defenders earn their living.",
+    id: "governance-risk-compliance",
+    num: 10,
+    code: "Phase 10",
+    title: "Governance, Risk & Compliance",
+    tagline: "Align cybersecurity with enterprise goals.",
     description:
-      "Detection engineering, incident response, and the operational metrics that define real SOC performance.",
-    difficulty: "Advanced",
-    accent: "defense",
-    modules: [
-      {
-        id: "s-1",
-        code: "8.1",
-        title: "SOC Engineering & Operational Metrics",
-        summary: "Run a SOC like a business.",
-        topics: ["MTTD & MTTR", "Alert fidelity & dwell time", "SLA & severity (P1–P4)", "Escalation matrices", "Tier 1/2/3 workflows"],
-        lab: {
-          title: "Run the SOC",
-          description: "Operate a simulated security operations center.",
-          steps: [
-            "Triage a queue of incoming alerts by severity",
-            "Calculate MTTD and MTTR from incident timestamps",
-            "Build an escalation decision for a P1 incident",
-            "Produce a SOC performance dashboard",
-          ],
-        },
-      },
-      {
-        id: "s-2",
-        code: "8.2",
-        title: "Detection Engineering",
-        summary: "Turn threats into reliable signals.",
-        topics: ["Sigma rules", "YARA basics", "Alert tuning", "Noise reduction", "Detection lifecycle"],
-        lab: {
-          title: "Tune the SIEM",
-          description: "Reduce alert fatigue without missing threats.",
-          steps: [
-            "Analyze a noisy detection's false-positive rate",
-            "Write a Sigma rule to catch the real behavior",
-            "Tune thresholds to cut noise by 80%",
-            "Validate detection coverage against the attack",
-          ],
-        },
-      },
-      {
-        id: "s-3",
-        code: "8.3",
-        title: "Incident Response & Threat Hunting",
-        summary: "Find what the alerts missed.",
-        topics: ["IR lifecycle", "Forensic triage", "Threat intel enrichment", "SOAR playbooks", "Cloud-native monitoring"],
-        lab: {
-          title: "Hunt the Threat",
-          description: "Proactively hunt an undetected intrusion.",
-          steps: [
-            "Form a hypothesis from threat-intel TTPs",
-            "Query logs for evidence of lateral movement",
-            "Scope the compromise and contain affected hosts",
-            "Write the post-incident report",
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: "career",
-    num: 9,
-    code: "Phase 09",
-    title: "Career Acceleration",
-    tagline: "From skilled to hired.",
-    description:
-      "The bridge most programs skip: technical interviews, mock screens, communication, and real hiring readiness.",
+      "Audit risk, analyze compliance frameworks (NIST, ISO 27001), and build risk reports.",
     difficulty: "Intermediate",
     accent: "foundation",
     modules: [
       {
-        id: "ca-1",
-        code: "9.1",
-        title: "Technical Interview Preparation",
-        summary: "Pass the rounds that gate the job.",
-        topics: ["SOC analyst questions", "Pentest interview scenarios", "Blue team technical screens", "AD attack scenarios", "Network troubleshooting rounds"],
+        id: "grc-1",
+        code: "10.1",
+        title: "Enterprise Governance",
+        summary: "Perform a formal risk assessment for an enterprise infrastructure.",
+        topics: [
+          "NIST Cybersecurity Framework",
+          "ISO 27001",
+          "CIS Controls",
+          "GDPR",
+          "Indian IT Act",
+          "Risk Assessment",
+          "Rules of Engagement",
+          "Security Governance",
+          "Compliance Auditing",
+          "Executive Reporting",
+          "Stakeholder Communication",
+          "Risk Communication"
+        ],
         lab: {
-          title: "Mock Technical Screen",
-          description: "Walk through a realistic interview scenario.",
+          title: "Risk Assessment Audit",
+          description: "Perform a formal risk assessment for an enterprise infrastructure.",
           steps: [
-            "Answer a timed SOC triage scenario",
-            "Whiteboard an Active Directory attack path",
-            "Explain a finding to a non-technical stakeholder",
-            "Self-assess against a hiring rubric",
-          ],
-        },
-      },
-      {
-        id: "ca-2",
-        code: "9.2",
-        title: "Portfolio, Branding & Strategy",
-        summary: "Make your skills undeniable.",
-        topics: ["GitHub & CTF portfolio", "Public credibility", "Salary negotiation", "Freelance & consulting models", "Executive reporting"],
-        lab: {
-          title: "Build Your Proof",
-          description: "Assemble a portfolio that gets callbacks.",
-          steps: [
-            "Audit your GitHub for recruiter-readiness",
-            "Write up a lab as a public case study",
-            "Draft a salary negotiation script",
-            "Plan your first 3 public contributions",
-          ],
-        },
-      },
-    ],
+            "Map system assets against NIST CSF controls",
+            "Calculate risk scores based on likelihood and impact",
+            "Audit company policy against GDPR and IT Act standards",
+            "Write a compliance audit and executive risk report"
+          ]
+        }
+      }
+    ]
   },
+  {
+    id: "capstone-career",
+    num: 11,
+    code: "Phase 11",
+    title: "Capstone & Career Acceleration",
+    tagline: "Synthesize your skills and get hired.",
+    description:
+      "Build a major capstone project, research vulnerabilities, and prepare for interviews.",
+    difficulty: "Advanced",
+    accent: "foundation",
+    modules: [
+      {
+        id: "cca-1",
+        code: "11.1",
+        title: "Career Acceleration Operations",
+        summary: "Assemble a professional portfolio and perform a mock interview review.",
+        topics: [
+          "Responsible Disclosure",
+          "Scope Analysis",
+          "Recon Methodology",
+          "Asset Discovery",
+          "Vulnerability Chaining",
+          "Report Writing",
+          "Public Research Publication",
+          "Technical Interviews",
+          "Mock Interviews",
+          "Salary Negotiation",
+          "Consulting Models",
+          "Freelancing Strategy",
+          "GitHub Portfolio Review",
+          "Professional Branding"
+        ],
+        lab: {
+          title: "Dossier Verification",
+          description: "Assemble a professional portfolio and perform a mock interview review.",
+          steps: [
+            "Structure a public GitHub security repository",
+            "Document a mock penetration test or vulnerability finding",
+            "Complete a mock technical screen and salary review",
+            "Draft a vulnerability report following disclosure standards"
+          ]
+        }
+      }
+    ]
+  }
 ];
 
 export function totalModules() {

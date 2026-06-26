@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export interface Progress {
   completedModules: string[]; // module ids
@@ -89,6 +90,7 @@ async function syncGuestProgress(userId: string) {
     console.log("[Supabase] Guest progress successfully synced to cloud.");
   } catch (err) {
     console.error("Failed to sync guest progress:", err);
+    toast.error("Database connection error: Failed to sync guest progress.");
   }
 }
 
@@ -163,6 +165,7 @@ export function useProgress() {
           return result.awarded;
         } catch (err) {
           console.error("Error saving completed module to DB:", err);
+          toast.error("Database connection error: Failed to save progress.");
           return false;
         }
       } else {
@@ -208,6 +211,7 @@ export function useProgress() {
           }
         } catch (err) {
           console.error("Error submitting quiz:", err);
+          toast.error("Database connection error: Failed to submit quiz.");
         }
       } else {
         // Guest mode fallback
@@ -262,6 +266,7 @@ export function useProgress() {
           return result;
         } catch (err) {
           console.error("Error submitting flag:", err);
+          toast.error("Database connection error: Failed to submit flag.");
           return { success: false, message: "Server connection failed." };
         }
       } else {

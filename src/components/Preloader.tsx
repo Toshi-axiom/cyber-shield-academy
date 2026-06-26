@@ -2,19 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 export function Preloader() {
-  const [show, setShow] = useState(() => {
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname;
-      if (path.startsWith("/auth") || path.startsWith("/reset-password")) {
-        return false;
-      }
-      return !sessionStorage.getItem("has_seen_preloader");
-    }
-    return true;
-  });
+  const [show, setShow] = useState(false);
   const [percent, setPercent] = useState(0);
   const [videoReady, setVideoReady] = useState(false);
   const [phase, setPhase] = useState<"loading" | "playing" | "done">("loading");
+
+  // SSR-safe client mount detection to prevent hydration mismatch
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const path = window.location.pathname;
+    if (path.startsWith("/auth") || path.startsWith("/reset-password")) {
+      return;
+    }
+    const hasSeen = sessionStorage.getItem("has_seen_preloader");
+    if (!hasSeen) {
+      setShow(true);
+    }
+  }, []);
   const videoRef = useRef<HTMLVideoElement>(null);
   // Track percent in a ref so the canplay handler can read the latest value
   const percentRef = useRef(0);

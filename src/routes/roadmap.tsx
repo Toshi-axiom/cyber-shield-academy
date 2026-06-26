@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { CheckCircle2, Lock, ArrowRight, ShieldCheck, Cpu, Cloud, Database, Network, Globe, Smartphone, Brain, Activity, Terminal } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
-import { phases } from "@/data/curriculum";
+import { phases, totalModules } from "@/data/curriculum";
 import { useProgress } from "@/hooks/useProgress";
 
 export const Route = createFileRoute("/roadmap")({
@@ -86,7 +86,7 @@ function Roadmap() {
           <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-[2px] bg-white/10 -translate-x-1/2">
             <div 
               className="absolute top-0 left-0 w-full bg-primary shadow-[0_0_10px_#FF6B00]" 
-              style={{ height: `${Math.min(((progress.completedModules.length) / 25) * 100, 100)}%` }}
+              style={{ height: `${Math.min(((progress.completedModules.length) / totalModules()) * 100, 100)}%` }}
             />
           </div>
 

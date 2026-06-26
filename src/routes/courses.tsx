@@ -10,8 +10,8 @@ export const Route = createFileRoute("/courses")({
   head: () => ({
     meta: [
       { title: "Curriculum — Vaelora Cybersecurity Phases & Labs" },
-      { name: "description", content: "Explore Vaelora's full cybersecurity curriculum: 9 phases from Linux foundations to AI security, SOC operations, and career prep — with hands-on labs in every module." },
-      { property: "og:title", content: "Vaelora Curriculum — 9 Phases, 20+ Labs" },
+      { name: "description", content: "Explore Vaelora's full cybersecurity curriculum: 13 phases from digital foundations to AI security, SOC operations, and career prep — with hands-on labs in every module." },
+      { property: "og:title", content: "Vaelora Curriculum — 13 Phases, 20+ Labs" },
       { property: "og:description", content: "From foundations to AI security and SOC operations. Free, hands-on, lab-driven." },
     ],
   }),

@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Vaelora — Free Cybersecurity Education for the AI Era" },
-      { name: "description", content: "Vaelora is a free, hands-on cybersecurity learning platform. 9 phases, 20+ labs, zero paywalls. Building defenders for the AI era." },
+      { name: "description", content: "Vaelora is a free, hands-on cybersecurity learning platform. 13 phases, 20+ labs, zero paywalls. Building defenders for the AI era." },
       { name: "author", content: "Vaelora" },
       { property: "og:title", content: "Vaelora — Building Defenders for the AI Era" },
       { property: "og:description", content: "Free, hands-on cybersecurity education. No paywalls, no gatekeeping." },

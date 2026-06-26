@@ -22,7 +22,7 @@ export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — Track Your Vaelora Progress" },
-      { name: "description", content: "Track your XP, completed labs, streak, and progress across all 9 Vaelora cybersecurity phases." },
+      { name: "description", content: "Track your XP, completed labs, streak, and progress across all 13 Vaelora cybersecurity phases." },
     ],
   }),
   component: Dashboard,
@@ -295,7 +295,7 @@ function Dashboard() {
 
         {/* Journey map */}
         <h2 className="mt-14 text-2xl font-semibold text-foreground">Your journey</h2>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-9">
+        <div className="mt-6 grid gap-3 grid-cols-3 sm:grid-cols-6 lg:grid-cols-13">
           {phases.map((p, i) => {
             const complete = p.modules.every((m) => isComplete(m.id));
             const started = p.modules.some((m) => isComplete(m.id));

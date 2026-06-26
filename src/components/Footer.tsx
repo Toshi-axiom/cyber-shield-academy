@@ -6,36 +6,36 @@ const columns = [
     title: "Academy",
     links: [
       { label: "All Courses", to: "/courses" },
-      { label: "Learning Paths", to: "/courses" },
-      { label: "Skill Roadmap", to: "/courses" },
-      { label: "Hands-on Labs", to: "/courses" },
+      { label: "Learning Paths", to: "/roadmap" },
+      { label: "Skill Roadmap", to: "/roadmap" },
+      { label: "Hands-on Labs", to: "/labs" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Documentation", to: "/courses" },
-      { label: "Cheat Sheets", to: "/courses" },
-      { label: "Blog", to: "/courses" },
-      { label: "Guides", to: "/courses" },
+      { label: "Documentation", to: "/documentation" },
+      { label: "Cheat Sheets", to: "/cheat-sheets" },
+      { label: "Blog", to: "/blog" },
+      { label: "Guides", to: "/guides" },
     ],
   },
   {
     title: "Community",
     links: [
-      { label: "Forum", to: "/dashboard" },
-      { label: "Discord", to: "/dashboard" },
-      { label: "Events", to: "/dashboard" },
-      { label: "Leaderboard", to: "/dashboard" },
+      { label: "Forum", to: "/forum" },
+      { label: "Discord", to: "#" }, // External link placeholder
+      { label: "Events", to: "/events" },
+      { label: "Leaderboard", to: "/leaderboard" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About Us", to: "/" },
-      { label: "Careers", to: "/" },
-      { label: "Contact", to: "/" },
-      { label: "Privacy", to: "/" },
+      { label: "About Us", to: "/about" },
+      { label: "Careers", to: "/careers" },
+      { label: "Contact", to: "/contact" },
+      { label: "Privacy", to: "/privacy" },
     ],
   },
 ];

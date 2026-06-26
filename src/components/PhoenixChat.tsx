@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquare, X, Send, Cpu, Terminal } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { askPhoenix } from "@/lib/api/ai";
 import aiLogo from "@/assets/ai.png";
 
 interface Message {
@@ -32,40 +33,77 @@ export function PhoenixChat() {
     scrollToBottom();
   }, [messages, isTyping]);
 
+  const sendMessage = async (textToSubmit: string) => {
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      sender: "user",
+      text: textToSubmit.trim(),
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setIsTyping(true);
+
+    try {
+      // Gather conversation history to send to Gemini API
+      const history = [...messages, userMsg].map((m) => ({
+        sender: m.sender,
+        text: m.text,
+      }));
+
+      const res = await askPhoenix({
+        data: {
+          messages: history,
+        },
+      });
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          sender: "phoenix",
+          text: res.text,
+        },
+      ]);
+    } catch (err) {
+      console.error("Failed to query Phoenix AI:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          sender: "phoenix",
+          text: "Neural Anomaly: Connection to the AI Guardian core was disrupted. Please try again.",
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isTyping) return;
 
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      sender: "user",
-      text: input.trim(),
+    const text = input;
+    setInput("");
+    sendMessage(text);
+  };
+
+  useEffect(() => {
+    const handleOpen = (e: Event) => {
+      const customEvent = e as CustomEvent<{ initialMessage?: string }>;
+      setIsOpen(true);
+      if (customEvent.detail?.initialMessage) {
+        const text = customEvent.detail.initialMessage.trim();
+        if (text) {
+          sendMessage(text);
+        }
+      }
     };
 
-    setMessages((prev) => [...prev, userMsg]);
-    setInput("");
-    setIsTyping(true);
+    window.addEventListener("open-phoenix-chat" as any, handleOpen);
+    return () => window.removeEventListener("open-phoenix-chat" as any, handleOpen);
+  }, [messages]);
 
-    // Simulate Phoenix processing delay
-    setTimeout(() => {
-      const responseMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: "phoenix",
-        text: getMockResponse(userMsg.text),
-      };
-      setMessages((prev) => [...prev, responseMsg]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const getMockResponse = (text: string) => {
-    const lower = text.toLowerCase();
-    if (lower.includes("hello") || lower.includes("hi")) return "Greetings, operative. Ready to begin your next module?";
-    if (lower.includes("help") || lower.includes("stuck")) return "I detect an anomaly in your progress. Review the documentation for Phase 02, or ask your squadron in the Comms channel.";
-    if (lower.includes("flag") || lower.includes("ctf")) return "Flags are highly sensitive. I cannot provide direct answers, but I recommend examining the packet headers for anomalies.";
-    if (lower.includes("lab")) return "Labs are live environments. Ensure your VPN configuration is active before deploying payloads.";
-    return "Processing... My neural nets are currently operating in offline mode. I will have full capabilities in a future update.";
-  };
 
   // Do not render floating widget on the landing page if the user is not authenticated, 
   // or just render it globally. Let's render it globally but maybe not on auth screens.
@@ -87,7 +125,7 @@ export function PhoenixChat() {
           >
             {/* Pulsing core */}
             <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping opacity-50" />
-            <img src={aiLogo} alt="AI Guardian" className="w-8 h-8 object-cover filter drop-shadow-[0_0_8px_rgba(255,107,0,0.8)] relative z-10 group-hover:scale-110 transition-transform" />
+            <img src={aiLogo} alt="AI Guardian" className="w-11 h-11 object-cover filter drop-shadow-[0_0_8px_rgba(255,107,0,0.8)] relative z-10 group-hover:scale-110 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -105,9 +143,9 @@ export function PhoenixChat() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-primary/20 bg-primary/5">
               <div className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center w-8 h-8 rounded-full border border-primary/50 bg-black/50 overflow-hidden">
+                <div className="relative flex items-center justify-center w-10 h-10 rounded-full border border-primary/50 bg-black/50 overflow-hidden">
                   <img src={aiLogo} alt="AI Guardian" className="w-full h-full object-cover filter drop-shadow-[0_0_4px_rgba(255,107,0,0.8)]" />
-                  <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_#22c55e] z-10" />
+                  <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_5px_#22c55e] z-10" />
                 </div>
                 <div>
                   <h3 className="font-orbitron text-sm font-bold text-white tracking-wider">PHOENIX</h3>

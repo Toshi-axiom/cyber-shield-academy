@@ -777,18 +777,35 @@ function Index() {
                 </div>
 
                 {/* Tactical Input Terminal */}
-                <div className="mt-6 relative z-10">
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!aiInput.trim()) return;
+                    window.dispatchEvent(
+                      new CustomEvent("open-phoenix-chat", {
+                        detail: { initialMessage: aiInput }
+                      })
+                    );
+                    setAiInput("");
+                  }}
+                  className="mt-6 relative z-10"
+                >
                   <div className="relative group">
                     <input 
                       type="text"
+                      value={aiInput}
+                      onChange={(e) => setAiInput(e.target.value)}
                       placeholder="Ask Phoenix anything..."
                       className="w-full bg-black/50 border border-white/10 rounded-sm px-4 py-3 font-mono text-[0.65rem] text-white placeholder-white/30 focus:outline-none focus:border-primary/60 focus:bg-primary/5 transition-all shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] group-hover:border-white/20"
                     />
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-sm bg-white/5 border border-white/10 text-white/40 cursor-text group-focus-within:bg-primary/20 group-focus-within:text-primary group-focus-within:border-primary/40 transition-colors">
+                    <button 
+                      type="submit"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-sm bg-white/5 border border-white/10 text-white/40 cursor-pointer hover:bg-primary/20 hover:text-primary hover:border-primary/40 transition-colors"
+                    >
                       <Terminal className="w-3 h-3" />
-                    </div>
+                    </button>
                   </div>
-                </div>
+                </form>
               </div>
             </Reveal>
 
