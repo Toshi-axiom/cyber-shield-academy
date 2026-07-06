@@ -48,10 +48,13 @@ export function Navbar() {
           <div className="flex items-center ml-2 border-l border-border/60 pl-6">
             {user ? (
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 rounded border border-border bg-black/40 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 rounded border border-border bg-black/40 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors cursor-pointer"
+                >
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-success)] animate-pulse" />
                   <span className="text-foreground font-medium">{username}</span>
-                </div>
+                </Link>
                 <button
                   onClick={() => signOut()}
                   className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
@@ -100,9 +103,13 @@ export function Navbar() {
             
             {user ? (
               <div className="flex flex-col gap-3 pt-3 border-t border-border/50">
-                <div className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                <Link
+                  to="/profile"
+                  onClick={() => setOpen(false)}
+                  className="font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Logged in as: <span className="text-foreground font-semibold">{username}</span>
-                </div>
+                </Link>
                 <button
                   onClick={() => {
                     signOut();
