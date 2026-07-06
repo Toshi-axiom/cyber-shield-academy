@@ -1,4 +1,4 @@
-# Cyber Shield Academy (Vaelora)
+# Vaelora
 
 Free, hands-on cybersecurity education built for the AI era. Cyber Shield Academy offers a self-paced curriculum spanning 13 learning phases, interactive terminal labs, real-time challenges, and progress synchronization via secure accounts.
 
